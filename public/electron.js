@@ -1,17 +1,20 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import isDev from "electron-is-dev";
 
 let mainWindow;
 
 function createWindow() {
+  console.log(path.resolve(__dirname, "/preload.js"));
   mainWindow = new BrowserWindow({
     width: 900,
     height: 680,
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
       enableRemoteModule: true,
       devTools: isDev,
+      preload: __dirname + "/preload.js",
     },
   });
 
@@ -24,7 +27,9 @@ function createWindow() {
   if (isDev) {
     mainWindow.webContents.openDevTools({ mode: "detach" });
   }
-
+  ipcMain.on("CONNECT", (evt, payload) => {
+    console.log(`payload ${payload}...`);
+  });
   mainWindow.setResizable(true);
   mainWindow.on("closed", () => (mainWindow = null));
   mainWindow.focus();

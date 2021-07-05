@@ -1,5 +1,10 @@
+import Connector from "./components/Connector";
 function App() {
-  return <div className="App"></div>;
+  return (
+    <>
+      <Connector></Connector>
+    </>
+  );
 }
 
 export default App;
