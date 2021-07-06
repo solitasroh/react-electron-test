@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import isDev from "electron-is-dev";
+import connect from "../src/modbus/modbus-client";
 
 let mainWindow;
 
@@ -27,9 +28,7 @@ function createWindow() {
   if (isDev) {
     mainWindow.webContents.openDevTools({ mode: "detach" });
   }
-  ipcMain.on("CONNECT", (evt, payload) => {
-    console.log(`payload ${payload}...`);
-  });
+
   mainWindow.setResizable(true);
   mainWindow.on("closed", () => (mainWindow = null));
   mainWindow.focus();
@@ -47,4 +46,11 @@ app.on("activate", () => {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+ipcMain.on("CONNECT", (evt, ip) => {
+  console.log(`payload ${ip}...`);
+
+  const client = connect({ ip, port: 502 });
+  console.log(client);
 });

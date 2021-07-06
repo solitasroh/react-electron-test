@@ -1,8 +1,11 @@
-import Connector from "./components/Connector";
+import MainRouter from "./components/Router";
+import GlobalStyles from "./components/GlobalStyles";
+
 function App() {
   return (
     <>
-      <Connector></Connector>
+      <MainRouter></MainRouter>
+      <GlobalStyles></GlobalStyles>
     </>
   );
 }
