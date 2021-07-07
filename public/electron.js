@@ -32,6 +32,9 @@ function createWindow() {
   mainWindow.setResizable(true);
   mainWindow.on("closed", () => (mainWindow = null));
   mainWindow.focus();
+
+  const client = connect({ ip: "10.10.23.49", port: 502 });
+  console.log(client);
 }
 
 app.on("ready", createWindow);
@@ -48,9 +51,28 @@ app.on("activate", () => {
   }
 });
 
+const client = null;
+
 ipcMain.on("CONNECT", (evt, ip) => {
   console.log(`payload ${ip}...`);
 
-  const client = connect({ ip, port: 502 });
+  client = connect({ ip, port: 502 });
   console.log(client);
+});
+
+ipcMain.on("FETCH_LM_INFO", async (evt, payload) => {
+  const val = await client.readHoldingRegister(10000, 8);
+  const lm_product_info = {
+    operationState: val.data[0],
+    ProductCode: val.data[1],
+    serialNumber: val.data[2],
+    hardwareRevision: val.data[3],
+    moduleType: val.data[4],
+    powerType: val.data[5],
+    pcbVersion: val.data[6],
+    applicationVersion: val.data[7],
+    bootloaderVersion: val.data[8],
+  };
+
+  evt.replay("FETCH_LM_INFO", lm_product_info);
 });

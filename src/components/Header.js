@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 const Container = styled.header`
   color: white;
@@ -22,7 +22,7 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-  width: 80px;
+  width: 40px;
   height: 50px;
   text-align: center;
   border-bottom: 3px solid
@@ -37,13 +37,40 @@ const ItemLink = styled(Link)`
   justify-content: center;
 `;
 
-export default withRouter(
-  <Container>
-    <Item>
-      <ItemLink>LM</ItemLink>
-    </Item>
-    <Item>IO01</Item>
-    <Item>IO02</Item>
-    <Item>IO03</Item>
-  </Container>
-);
+const Header = withRouter(({ location: { pathname } }) => {
+  return (
+    <Container>
+      <List>
+        <Item current={pathname === "/"}>
+          <ItemLink to="/">LM</ItemLink>
+        </Item>
+        <Item current={pathname === "/IO/01"}>
+          <ItemLink to="/IO/01">IO1</ItemLink>
+        </Item>
+        <Item current={pathname === "/IO/02"}>
+          <ItemLink to="/IO/02">IO2</ItemLink>
+        </Item>
+        <Item current={pathname === "/IO/03"}>
+          <ItemLink to="/IO/03">IO3</ItemLink>
+        </Item>
+        <Item current={pathname === "/IO/04"}>
+          <ItemLink to="/IO/04">IO4</ItemLink>
+        </Item>
+        <Item current={pathname === "/IO/05"}>
+          <ItemLink to="/IO/05">IO5</ItemLink>
+        </Item>
+        <Item current={pathname === "/IO/06"}>
+          <ItemLink to="/IO/06">IO6</ItemLink>
+        </Item>
+        <Item current={pathname === "/IO/07"}>
+          <ItemLink to="/IO/07">IO7</ItemLink>
+        </Item>
+        <Item current={pathname === "/IO/08"}>
+          <ItemLink to="/IO/08">IO8</ItemLink>
+        </Item>
+      </List>
+    </Container>
+  )
+});
+
+export default Header;
