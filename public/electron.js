@@ -1,12 +1,12 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow } from "electron";
 import path from "path";
 import isDev from "electron-is-dev";
-import connect from "../src/modbus/modbus-client";
+import { connectServer, startToUpdate } from "../src/modbus/registerAccess";
+import { getA2750LMProductInfo } from "../src/model/A2750LM.model";
 
 let mainWindow;
-
+let mClient;
 function createWindow() {
-  console.log(path.resolve(__dirname, "/preload.js"));
   mainWindow = new BrowserWindow({
     width: 900,
     height: 680,
@@ -18,6 +18,7 @@ function createWindow() {
       preload: __dirname + "/preload.js",
     },
   });
+  mainWindow.removeMenu();
 
   mainWindow.loadURL(
     isDev
@@ -32,12 +33,19 @@ function createWindow() {
   mainWindow.setResizable(true);
   mainWindow.on("closed", () => (mainWindow = null));
   mainWindow.focus();
+  let webContents = mainWindow.webContents;
 
-  const client = connect({ ip: "10.10.23.49", port: 502 });
-  console.log(client);
+  connectServer({ ip: "127.0.0.1", port: 502 })
+    .then(() => {
+      console.log("ip: 127.0.0.1:502 connected");
+      startToUpdate(webContents);
+    })
+    .catch(console.error);
 }
 
-app.on("ready", createWindow);
+app.whenReady().then(createWindow);
+
+//app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
@@ -49,30 +57,4 @@ app.on("activate", () => {
   if (mainWindow === null) {
     createWindow();
   }
-});
-
-const client = null;
-
-ipcMain.on("CONNECT", (evt, ip) => {
-  console.log(`payload ${ip}...`);
-
-  client = connect({ ip, port: 502 });
-  console.log(client);
-});
-
-ipcMain.on("FETCH_LM_INFO", async (evt, payload) => {
-  const val = await client.readHoldingRegister(10000, 8);
-  const lm_product_info = {
-    operationState: val.data[0],
-    ProductCode: val.data[1],
-    serialNumber: val.data[2],
-    hardwareRevision: val.data[3],
-    moduleType: val.data[4],
-    powerType: val.data[5],
-    pcbVersion: val.data[6],
-    applicationVersion: val.data[7],
-    bootloaderVersion: val.data[8],
-  };
-
-  evt.replay("FETCH_LM_INFO", lm_product_info);
 });

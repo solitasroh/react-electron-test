@@ -4250,6 +4250,11 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+crc@3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/crc/-/crc-3.4.0.tgz#4258e351613a74ef1153dfcb05e820c3e9715d7f"
+  integrity sha1-QljjUWE6dO8RU9/LBeggw+lxXX8=
+
 crc@^3.8.0:
   version "3.8.0"
   resolved "https://registry.npmjs.org/crc/-/crc-3.8.0.tgz"
@@ -4622,7 +4627,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@^3.1.1, debug@^3.2.6:
+debug@^3.1.0, debug@^3.1.1, debug@^3.2.6:
   version "3.2.7"
   resolved "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz"
   integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
@@ -7819,6 +7824,14 @@ jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.npmjs.org/jsesc/-/jsesc-0.5.0.tgz"
   integrity sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0=
+
+jsmodbus@^4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/jsmodbus/-/jsmodbus-4.0.6.tgz#6b59b2c0c460b98f9cba8e8350156ce3719f9b7f"
+  integrity sha512-gCmjoaERErK5Rn9Lu/BN07fY13MoWV7JKgGzrnkPlQPdPxYcwDhLtYcmpFFpZ4J9NPZZBSezi1UkLZO/DnNppA==
+  dependencies:
+    crc "3.4.0"
+    debug "^3.1.0"
 
 json-buffer@3.0.0:
   version "3.0.0"

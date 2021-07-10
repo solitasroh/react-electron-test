@@ -1,8 +1,13 @@
 import React from "react";
-import { HashRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import Header from "./Header";
-import A2750LM from "../Routes/A2750LM"
-import A2750IO from "../Routes/A2750IO"
+import A2750IO from "../Routes/A2750IO";
+import LM from "../Routes/LM";
 
 export default function MainRouter() {
   return (
@@ -10,7 +15,7 @@ export default function MainRouter() {
       <>
         <Header />
         <Switch>
-          <Route path="/" exact component={A2750LM} />
+          <Route path="/" exact component={LM} />
           <Route path="/IO/:id" component={A2750IO} />
           <Redirect from="*" to="/" />
         </Switch>

@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-const { ipcRenderer } = window.require("electron");
+import useIpcOn from "../Hooks/useIpcOn";
+import { CHANNEL_LM_INFO } from "../model/A2750LM.model";
 
 const InfoContainer = styled.div`
   display: block;
 `;
+
 const DataContainer = styled.div`
   display: flex;
 `;
+
 const Label = styled.label`
   display: block;
   margin-left: 10px;
   margin-bottom: 10px;
   width: 80px;
 `;
+
 const Value = styled.label`
   color: Yellow;
   margin-left: 10px;
@@ -24,25 +28,22 @@ const Value = styled.label`
   text-align: center;
 `;
 
-const fetchLMInfo = () => {
-  ipcRenderer.on("FETCH_LM_INFO", (evt, args) => {});
-  ipcRenderer.send("REQ_FETCH_LM_INFO");
-};
+const LM = () => {
+  const [information, setInformation] = useState({
+    operationState: 0,
+    productCode: 0,
+    serialNumber: 0,
+    hardwareRevision: 0,
+    moduleType: 0,
+    powerType: 0,
+    pcbVersion: 0,
+    applicationVersion: "0.0.000",
+    bootloaderVersion: "0.0.000",
+  });
 
-export default function A2750LM() {
-  fetchLMInfo();
-
-  const lm_product_info = {
-    operationState: "Operation",
-    ProductCode: "1",
-    serialNumber: "102010",
-    hardwareRevision: 1,
-    moduleType: 2,
-    powerType: 3,
-    pcbVersion: 1,
-    applicationVersion: 10100,
-    bootloaderVersion: 10100,
-  };
+  useIpcOn(CHANNEL_LM_INFO, (evt, ...args) => {
+    setInformation(...args);
+  });
 
   return (
     <div>
@@ -54,41 +55,43 @@ export default function A2750LM() {
 
         <DataContainer>
           <Label>operation state</Label>
-          <Value>{lm_product_info.operationState}</Value>
+          <Value>{information.operationState}</Value>
         </DataContainer>
         <DataContainer>
           <Label>product code</Label>
-          <Value>{lm_product_info.ProductCode}</Value>
+          <Value>{information.productCode}</Value>
         </DataContainer>
         <DataContainer>
           <Label>serial number</Label>
-          <Value>{lm_product_info.serialNumber}</Value>
+          <Value>{information.serialNumber}</Value>
         </DataContainer>
         <DataContainer>
           <Label>hardware revision</Label>
-          <Value>{lm_product_info.hardwareRevision}</Value>
+          <Value>{information.hardwareRevision}</Value>
         </DataContainer>
         <DataContainer>
           <Label>module type</Label>
-          <Value>{lm_product_info.moduleType}</Value>
+          <Value>{information.moduleType}</Value>
         </DataContainer>
         <DataContainer>
           <Label>power type</Label>
-          <Value>{lm_product_info.powerType}</Value>
+          <Value>{information.powerType}</Value>
         </DataContainer>
         <DataContainer>
           <Label>pcb version</Label>
-          <Value>{lm_product_info.pcbVersion}</Value>
+          <Value>{information.pcbVersion}</Value>
         </DataContainer>
         <DataContainer>
           <Label>application version</Label>
-          <Value>{lm_product_info.applicationVersion}</Value>
+          <Value>{information.applicationVersion}</Value>
         </DataContainer>
         <DataContainer>
           <Label>bootloader version</Label>
-          <Value>{lm_product_info.bootloaderVersion}</Value>
+          <Value>{information.bootloaderVersion}</Value>
         </DataContainer>
       </InfoContainer>
     </div>
   );
-}
+};
+
+export default LM;
