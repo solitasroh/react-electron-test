@@ -6,6 +6,8 @@ import {
   fetchLMDIStatus,
   CHANNEL_LM_INFO,
   CHANNEL_LM_DI_STATUS,
+  CHANNEL_LM_DO_STATUS,
+  fetchLMDOStatus,
 } from "../model/A2750LM.model";
 
 const modbusClient = new ModbusRTU();
@@ -13,20 +15,39 @@ const modbusClient = new ModbusRTU();
 const connectServer = ({ ip, port }) => {
   return modbusClient.connectTCP(ip, { port });
 };
+let _webContents;
+const readRegister = async (register) => {
+    return await modbusClient.readHoldingRegisters(register.address, register.length);
+};
+
 
 const startToUpdate = (webContents) => {
-  setInterval(() => {
-    a2700registerMap.forEach((register) => {
-      modbusClient
-        .readHoldingRegisters(register.address, register.length)
-        .then(({ data: buffer }) => {
-          register.data = register.parser(buffer);
-          webContents.send(register.channel, register.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
+  _webContents = webContents;
+
+  setInterval(async () => {
+    await Promise.all(a2700registerMap.map(async (register) => {
+      const {data} = await readRegister(register);
+      console.log(`channel: ${register.channel}, address: ${register.address}`);
+      register.data = register.parser(data);
+      webContents.send(register.channel, register.data);
+    }));
+
+    // datas.map(({data: buffer} )=> {
+    //   console.log('//')
+    //   console.log(buffer);
+    //   //webContents.send(r.channel, r.data);
+    // });
+    // a2700registerMap.forEach((register) => {
+    //   modbusClient
+    //     .readHoldingRegisters(register.address, register.length)
+    //     .then(({ data: buffer }) => {
+    //       register.data = register.parser(buffer);
+    //       webContents.send(register.channel, register.data);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // });
   }, 1500);
 };
 
@@ -73,6 +94,23 @@ const a2700registerMap = [
       channel18: "",
     },
     parser: fetchLMDIStatus,
+  },
+  {
+    address: 10070,
+    length: 9,
+    channel: CHANNEL_LM_DO_STATUS,
+    data: {
+      channel1: "",
+      channel2: "",
+      channel3: "",
+      channel4: "",
+      channel5: "",
+      channel6: "",
+      channel7: "",
+      channel8: "",
+      channel9: "",
+    },
+    parser: fetchLMDOStatus,
   },
 ];
 

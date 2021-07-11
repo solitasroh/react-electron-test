@@ -1,5 +1,6 @@
 export const CHANNEL_LM_INFO = "channel_lm_info";
 export const CHANNEL_LM_DI_STATUS = "channel_lm_di_status";
+export const CHANNEL_LM_DO_STATUS = "channel_lm_do_status";
 
 const operation_state = (val) => {
   if (val === 1) return "Bootloader";
@@ -10,9 +11,11 @@ const operation_state = (val) => {
 const product_code = (val) => {
   return val;
 };
+
 const module_type = (val) => {
   return val === 1 ? "A2750LMH" : "A2750LM";
 };
+
 const convertVersion = (val) => {
   // 10100
 
@@ -65,4 +68,19 @@ const fetchLMDIStatus = (data) => {
   return diStatus;
 };
 
-export { fetchLMDIStatus, fetchLMProductInformation };
+const fetchLMDOStatus = (data) => {
+  const doStatus = {
+    channel1: data[0] === 1 ? "Close" : "Open",
+    channel2: data[1] === 1 ? "Close" : "Open",
+    channel3: data[2] === 1 ? "Close" : "Open",
+    channel4: data[3] === 1 ? "Close" : "Open",
+    channel5: data[4] === 1 ? "Close" : "Open",
+    channel6: data[5] === 1 ? "Close" : "Open",
+    channel7: data[6] === 1 ? "Close" : "Open",
+    channel8: data[7] === 1 ? "Close" : "Open",
+    channel9: data[8] === 1 ? "Close" : "Open",
+  };
+  return doStatus;
+};
+
+export { fetchLMDIStatus, fetchLMProductInformation, fetchLMDOStatus };
