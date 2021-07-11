@@ -6,10 +6,12 @@ import {
   fetchLMDIStatus,
   CHANNEL_LM_INFO,
   CHANNEL_LM_DI_STATUS,
+  CHANNEL_LM_DO_STATUS,
+  fetchLMDOStatus,
 } from "../model/A2750LM.model";
 
 const modbusClient = new ModbusRTU();
-
+const _sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 const connectServer = ({ ip, port }) => {
   return modbusClient.connectTCP(ip, { port });
 };
@@ -21,6 +23,9 @@ const startToUpdate = (webContents) => {
         .readHoldingRegisters(register.address, register.length)
         .then(({ data: buffer }) => {
           register.data = register.parser(buffer);
+          console.log(
+            `channel: ${register.channel} , addr: ${register.address}`
+          );
           webContents.send(register.channel, register.data);
         })
         .catch((error) => {
@@ -73,6 +78,23 @@ const a2700registerMap = [
       channel18: "",
     },
     parser: fetchLMDIStatus,
+  },
+  {
+    address: 10070,
+    length: 9,
+    channel: CHANNEL_LM_DO_STATUS,
+    data: {
+      channel1: "",
+      channel2: "",
+      channel3: "",
+      channel4: "",
+      channel5: "",
+      channel6: "",
+      channel7: "",
+      channel8: "",
+      channel9: "",
+    },
+    parser: fetchLMDOStatus,
   },
 ];
 
