@@ -54,12 +54,14 @@ const ContentField = ({ prop, value, invalid, priority }) => {
 };
 
 const DIOField = ({ prop, value, on, priority }) => {
+  const setCommand = () => {};
   return (
     <Container>
       <Title>{prop}</Title>
       <DIValue on={value === "Energized" || value === "Close"} priority="high">
         {value}
       </DIValue>
+      <button onClick={setCommand}>{value === "Close" ? "OFF" : "ON"} </button>
     </Container>
   );
 };

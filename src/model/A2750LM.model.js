@@ -1,6 +1,9 @@
 export const CHANNEL_LM_INFO = "channel_lm_info";
+export const CHANNEL_LM_PARTNER_INFO = "channel_lm_partner_info";
 export const CHANNEL_LM_DI_STATUS = "channel_lm_di_status";
 export const CHANNEL_LM_DO_STATUS = "channel_lm_do_status";
+export const CHANNEL_LD_INFO = "channel_ld_info";
+export const CHANNEL_LD_PARTNER_INFO = "channel_ld_partner_info";
 
 const operation_state = (val) => {
   if (val === 1) return "Bootloader";
@@ -83,4 +86,23 @@ const fetchLMDOStatus = (data) => {
   return doStatus;
 };
 
-export { fetchLMDIStatus, fetchLMProductInformation, fetchLMDOStatus };
+const parseLDInformation = (data) => {
+  const ldInfo = {
+    operationState: operation_state(data[0]),
+    productCode: data[1],
+    serialNumber: data[2] | data[3],
+    hardwareRevision: data[4],
+    applicationVersion: data[5],
+    kernelVersion: data[6],
+    bootloaderVersion: data[7],
+    pcbVersion: data[8],
+  };
+  return ldInfo;
+};
+
+export {
+  fetchLMDIStatus,
+  fetchLMProductInformation,
+  fetchLMDOStatus,
+  parseLDInformation,
+};

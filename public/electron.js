@@ -35,7 +35,7 @@ function createWindow() {
   mainWindow.focus();
   let webContents = mainWindow.webContents;
 
-  connectServer({ ip: "10.10.23.49", port: 502 })
+  connectServer({ ip: "localhost", port: 502 })
     .then(() => {
       console.log("ip: 10.10.23.49:502 connected");
       startToUpdate(webContents);
