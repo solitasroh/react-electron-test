@@ -1,4 +1,3 @@
-import { client } from "jsmodbus";
 import ModbusRTU from "modbus-serial";
 
 import {
@@ -11,27 +10,30 @@ import {
 } from "../model/A2750LM.model";
 
 const modbusClient = new ModbusRTU();
-const _sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+
 const connectServer = ({ ip, port }) => {
   return modbusClient.connectTCP(ip, { port });
 };
 
+const readRegister = async (register) => {
+  return await modbusClient.readHoldingRegisters(
+    register.address,
+    register.length
+  );
+};
+
 const startToUpdate = (webContents) => {
-  setInterval(() => {
-    a2700registerMap.forEach((register) => {
-      modbusClient
-        .readHoldingRegisters(register.address, register.length)
-        .then(({ data: buffer }) => {
-          register.data = register.parser(buffer);
-          console.log(
-            `channel: ${register.channel} , addr: ${register.address}`
-          );
-          webContents.send(register.channel, register.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
+  setInterval(async () => {
+    await Promise.all(
+      a2700registerMap.map(async (register) => {
+        const { data } = await readRegister(register);
+        console.log(
+          `channel: ${register.channel}, address: ${register.address}`
+        );
+        register.data = register.parser(data);
+        webContents.send(register.channel, register.data);
+      })
+    );
   }, 1500);
 };
 

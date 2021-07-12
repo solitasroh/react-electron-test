@@ -137,6 +137,7 @@ const A2750LMDigitalInput = () => {
     </InfoContainer>
   );
 };
+
 const A2750LMDigitalOutput = () => {
   const [doStatus, setDoStatus] = useState({
     channel1: "",
@@ -170,6 +171,7 @@ const A2750LMDigitalOutput = () => {
     </InfoContainer>
   );
 };
+
 const LM = () => {
   return (
     <Container>
