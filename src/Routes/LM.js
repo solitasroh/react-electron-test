@@ -111,27 +111,27 @@ const A2750LMDigitalInput = () => {
     <InfoContainer>
       <TitleField>Digital Input</TitleField>
       <DIOField
-        prop="Channel01"
+        ch={1}
         value={diStatus.channel1}
         on={diStatus.channel1 === "Energized"}
       />
-      <DIOField prop="Channel02" value={diStatus.channel2} />
-      <DIOField prop="Channel03" value={diStatus.channel3} />
-      <DIOField prop="Channel04" value={diStatus.channel4} />
-      <DIOField prop="Channel05" value={diStatus.channel5} />
-      <DIOField prop="Channel06" value={diStatus.channel6} />
-      <DIOField prop="Channel07" value={diStatus.channel7} />
-      <DIOField prop="Channel08" value={diStatus.channel8} />
-      <DIOField prop="Channel09" value={diStatus.channel9} />
-      <DIOField prop="Channel10" value={diStatus.channel10} />
-      <DIOField prop="Channel11" value={diStatus.channel11} />
-      <DIOField prop="Channel12" value={diStatus.channel12} />
-      <DIOField prop="Channel13" value={diStatus.channel13} />
-      <DIOField prop="Channel14" value={diStatus.channel14} />
-      <DIOField prop="Channel15" value={diStatus.channel15} />
-      <DIOField prop="Channel16" value={diStatus.channel16} />
-      <DIOField prop="Channel17" value={diStatus.channel17} />
-      <DIOField prop="Channel18" value={diStatus.channel18} />
+      <DIOField ch={2} value={diStatus.channel2} />
+      <DIOField ch={3} value={diStatus.channel3} />
+      <DIOField ch={4} value={diStatus.channel4} />
+      <DIOField ch={5} value={diStatus.channel5} />
+      <DIOField ch={6} value={diStatus.channel6} />
+      <DIOField ch={7} value={diStatus.channel7} />
+      <DIOField ch={8} value={diStatus.channel8} />
+      <DIOField ch={9} value={diStatus.channel9} />
+      <DIOField ch={10} value={diStatus.channel10} />
+      <DIOField ch={11} value={diStatus.channel11} />
+      <DIOField ch={12} value={diStatus.channel12} />
+      <DIOField ch={13} value={diStatus.channel13} />
+      <DIOField ch={14} value={diStatus.channel14} />
+      <DIOField ch={15} value={diStatus.channel15} />
+      <DIOField ch={16} value={diStatus.channel16} />
+      <DIOField ch={17} value={diStatus.channel17} />
+      <DIOField ch={18} value={diStatus.channel18} />
     </InfoContainer>
   );
 };
@@ -148,7 +148,6 @@ const A2750LDInformation = ({partner}) => {
   });
   const channel = partner ? CHANNEL_LD_PARTNER_INFO : CHANNEL_LD_INFO;
   useIpcOn(channel, (evt, ...args) => {
-    console.log(args);
     setLdInfo(...args);
   });
 
@@ -181,22 +180,21 @@ const A2750LMDigitalOutput = () => {
   });
 
   useIpcOn(CHANNEL_LM_DO_STATUS, (evt, ...args) => {
-    console.log(args);
     setDoStatus(...args);
   });
 
   return (
     <InfoContainer>
       <TitleField>Digital Output</TitleField>
-      <DIOField prop="Channel01" value={doStatus.channel1} />
-      <DIOField prop="Channel02" value={doStatus.channel2} />
-      <DIOField prop="Channel03" value={doStatus.channel3} />
-      <DIOField prop="Channel04" value={doStatus.channel4} />
-      <DIOField prop="Channel05" value={doStatus.channel5} />
-      <DIOField prop="Channel06" value={doStatus.channel6} />
-      <DIOField prop="Channel07" value={doStatus.channel7} />
-      <DIOField prop="Channel08" value={doStatus.channel8} />
-      <DIOField prop="Channel09" value={doStatus.channel9} />
+      <DIOField ch={1} value={doStatus.channel1} />
+      <DIOField ch={2} value={doStatus.channel2} />
+      <DIOField ch={3} value={doStatus.channel3} />
+      <DIOField ch={4} value={doStatus.channel4} />
+      <DIOField ch={5} value={doStatus.channel5} />
+      <DIOField ch={6} value={doStatus.channel6} />
+      <DIOField ch={7} value={doStatus.channel7} />
+      <DIOField ch={8} value={doStatus.channel8} />
+      <DIOField ch={9} value={doStatus.channel9} />
     </InfoContainer>
   );
 };

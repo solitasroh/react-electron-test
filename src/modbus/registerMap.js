@@ -1,6 +1,6 @@
 import {
   fetchLMProductInformation as parseProductInformationLM,
-  fetchLMDIStatus,
+  parseLMDIStatus,
   CHANNEL_LM_INFO,
   CHANNEL_LM_PARTNER_INFO,
   CHANNEL_LM_DI_STATUS,
@@ -8,12 +8,12 @@ import {
   CHANNEL_LD_INFO,
   CHANNEL_LD_PARTNER_INFO,
   fetchLMDOStatus,
-  fetchLDInfo,
   parseA2750LDInformation,
 } from "../model/A2750LM.model";
 
 export const a2700registerMap = [
   {
+    fc: 3,
     address: 62001,
     length: 11,
     channel: CHANNEL_LM_INFO,
@@ -29,6 +29,7 @@ export const a2700registerMap = [
     parser: parseProductInformationLM,
   },
   {
+    fc: 3,
     address: 62031,
     length: 11,
     channel: CHANNEL_LM_PARTNER_INFO,
@@ -44,7 +45,8 @@ export const a2700registerMap = [
     parser: parseProductInformationLM,
   },
   {
-    address: 62400,
+    fc: 1,
+    address: 1001,
     length: 18,
     channel: CHANNEL_LM_DI_STATUS,
     data: {
@@ -67,10 +69,11 @@ export const a2700registerMap = [
       channel17: "",
       channel18: "",
     },
-    parser: fetchLMDIStatus,
+    parser: parseLMDIStatus,
   },
   {
-    address: 62450,
+    fc: 1,
+    address: 1349,
     length: 9,
     channel: CHANNEL_LM_DO_STATUS,
     data: {
@@ -87,6 +90,7 @@ export const a2700registerMap = [
     parser: fetchLMDOStatus,
   },
   {
+    fc: 1,
     address: 62300,
     length: 9,
     channel: CHANNEL_LD_INFO,
@@ -103,6 +107,7 @@ export const a2700registerMap = [
     parser: parseA2750LDInformation,
   },
   {
+    fc: 3,
     address: 62320,
     length: 9,
     channel: CHANNEL_LD_PARTNER_INFO,

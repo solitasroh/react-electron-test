@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { CHANNEL_LM_DO_COMMAND } from "../model/A2750LM.model";
+const { ipcRenderer } = window.require("electron");
 
 const Container = styled.div`
   display: flex;
@@ -54,13 +56,24 @@ const ContentField = ({ prop, value, invalid, priority }) => {
   );
 };
 
-const DIOField = ({ prop, value, on, priority }) => {
+const DIOField = ({ ch, value, on, priority }) => {
+  const setCommand = () => {
+    console.log(`command = ${ch}`);
+    
+    const data = {
+      ch,
+      value: value === "Close" ? 0 : 1,
+    };
+
+    ipcRenderer.send(CHANNEL_LM_DO_COMMAND, data);
+  };
   return (
     <Container>
-      <Title>{prop}</Title>
+      <Title>channel {ch}</Title>
       <DIValue on={value === "Energized" || value === "Close"} priority="high">
         {value}
       </DIValue>
+      <button onClick={setCommand}>set</button>
     </Container>
   );
 };
