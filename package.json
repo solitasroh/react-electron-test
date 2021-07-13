@@ -7,7 +7,13 @@
   "build": {
     "productName": "test-app",
     "asar": true,
-    "appId": "org.solitas.electron-test-app"
+    "appId": "org.solitas.electron-test-app",
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": true
+    }
   },
   "dependencies": {
     "@babel/runtime": "^7.14.6",
@@ -34,7 +40,7 @@
     "react-test": "react-scripts test",
     "react-eject": "react-scripts eject",
     "start": "concurrently \"cross-env NODE_ENV=development BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron -r @babel/register .\"",
-    "build": "yarn react-build && eletron-builder",
+    "build": "yarn react-build && electron-builder --win --x64",
     "release": "yarn react-build && electron-builder --publish=always"
   },
   "eslintConfig": {
@@ -62,6 +68,6 @@
     "@babel/preset-env": "^7.14.7",
     "@babel/register": "^7.14.5",
     "electron": "13.1.2",
-    "electron-builder": "22.11.7"
+    "electron-builder": "^22.11.7"
   }
 }
