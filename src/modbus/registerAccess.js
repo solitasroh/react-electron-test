@@ -40,7 +40,9 @@ const startToUpdate = (webContents) => {
           console.log(
             `channel: ${register.channel}, address: ${register.address - 1}`
           );
-          register.data = register.parser(data);
+          if (register.parser != null) {
+            register.data = register.parser(data);
+          }
           webContents.send(register.channel, register.data);
         } else if (register.fc == 1) {
           const { data } = await readCoil(register);

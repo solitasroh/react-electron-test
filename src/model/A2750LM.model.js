@@ -5,6 +5,7 @@ export const CHANNEL_LM_DO_STATUS = "channel_lm_do_status";
 export const CHANNEL_LD_INFO = "channel_ld_info";
 export const CHANNEL_LD_PARTNER_INFO = "channel_ld_partner_info";
 export const CHANNEL_LM_DO_COMMAND = "channel_lm_do_command";
+export const CHANNEL_LD_MISMATCH_ALARM = "channel_lm_mismatch_alarm";
 
 const operation_state = (val) => {
   if (val === 1) return "Bootloader";
@@ -98,5 +99,10 @@ const parseA2750LDInformation = (data)=> {
   }
   return ldInformation;
 };
-
-export { parseLMDIStatus, fetchLMProductInformation, fetchLMDOStatus, parseA2750LDInformation };
+const parseA2750LMMismatchAlarm = (data) => {
+  const alarm = {
+    alarm: data[0],
+  }
+  return alarm;
+}
+export { parseLMDIStatus, fetchLMProductInformation, fetchLMDOStatus, parseA2750LDInformation, parseA2750LMMismatchAlarm };

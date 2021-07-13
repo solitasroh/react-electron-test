@@ -8,8 +8,10 @@ import {
   CHANNEL_LD_INFO,
   CHANNEL_LD_PARTNER_INFO,
   CHANNEL_LM_PARTNER_INFO,
+  CHANNEL_LD_MISMATCH_ALARM,
 } from "../model/A2750LM.model";
-import { ContentField, DIOField } from "../components/ContentField";
+import { ContentField, DIOField, InfoContainer } from "../components/ContentField";
+import A2750LMSetup from "../components/A2750LMSetup";
 
 const Container = styled.div`
   display: flex;
@@ -19,15 +21,15 @@ const Container = styled.div`
   align-items: flex-start;
 `;
 
-const InfoContainer = styled.div`
-  display: inline-block;
-  justify-content: left;
-  background-color: white;
-  align-items: baseline;
-  margin: 10px;
-  border-radius: 5px;
-  padding: 10px;
-`;
+// const InfoContainer = styled.div`
+//   display: inline-block;
+//   justify-content: left;
+//   background-color: white;
+//   align-items: baseline;
+//   margin: 10px;
+//   border-radius: 5px;
+//   padding: 10px;
+// `;
 
 const TitleField = styled.label`
   display: flex;
@@ -165,6 +167,25 @@ const A2750LDInformation = ({partner}) => {
     </InfoContainer>
   )
 }
+const A2750LMAlarm = () => {
+  
+  const [alarm, setAlarm] = useState({
+    alarm: 0
+  });
+
+  useIpcOn(CHANNEL_LD_MISMATCH_ALARM, (evt,...args) => {
+    console.log(args);
+    setAlarm(...args);
+    console.log(alarm);
+  });
+
+  return (
+    <InfoContainer>
+      <TitleField>Accura 2750LM Alarm</TitleField>
+      <ContentField prop="MissMatch" value={alarm.alarm ? "On" : "Off"} priority="high"/>
+    </InfoContainer>
+  )
+}
 
 const A2750LMDigitalOutput = () => {
   const [doStatus, setDoStatus] = useState({
@@ -201,13 +222,14 @@ const A2750LMDigitalOutput = () => {
 const LM = () => {
   return (
     <Container>
-      <A2750LMInformation></A2750LMInformation>
-      <A2750LMInformation partner={true}></A2750LMInformation>
-      <A2750LDInformation></A2750LDInformation>
-      <A2750LDInformation partner={true}></A2750LDInformation>
-      <A2750LMDigitalInput></A2750LMDigitalInput>
-      <A2750LMDigitalOutput></A2750LMDigitalOutput>
-      
+      <A2750LMInformation/>
+      <A2750LMInformation partner={true}/>
+      <A2750LDInformation/>
+      <A2750LDInformation partner={true}/>
+      <A2750LMDigitalInput/>
+      <A2750LMDigitalOutput/>
+      <A2750LMAlarm/>
+      <A2750LMSetup/>
     </Container>
   );
 };

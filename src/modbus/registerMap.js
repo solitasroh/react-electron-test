@@ -1,5 +1,5 @@
 import {
-  fetchLMProductInformation as parseProductInformationLM,
+  fetchLMProductInformation,
   parseLMDIStatus,
   CHANNEL_LM_INFO,
   CHANNEL_LM_PARTNER_INFO,
@@ -7,6 +7,8 @@ import {
   CHANNEL_LM_DO_STATUS,
   CHANNEL_LD_INFO,
   CHANNEL_LD_PARTNER_INFO,
+  CHANNEL_LD_MISMATCH_ALARM,
+  parseA2750LMMismatchAlarm,
   fetchLMDOStatus,
   parseA2750LDInformation,
 } from "../model/A2750LM.model";
@@ -26,7 +28,7 @@ export const a2700registerMap = [
       applicationVersion: "", // 1w
       bootloaderVersion: "", // 1w
     },
-    parser: parseProductInformationLM,
+    parser: fetchLMProductInformation,
   },
   {
     fc: 3,
@@ -42,7 +44,7 @@ export const a2700registerMap = [
       applicationVersion: "", // 1w
       bootloaderVersion: "", // 1w
     },
-    parser: parseProductInformationLM,
+    parser: fetchLMProductInformation,
   },
   {
     fc: 1,
@@ -123,4 +125,14 @@ export const a2700registerMap = [
     },
     parser: parseA2750LDInformation,
   },
+  {
+    fc: 1,
+    address: 1000,
+    length: 1,
+    channel: CHANNEL_LD_MISMATCH_ALARM,
+    data: {
+      alarm: 0,
+    },
+    parser: parseA2750LMMismatchAlarm,
+  }
 ];
