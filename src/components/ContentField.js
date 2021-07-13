@@ -44,7 +44,6 @@ const DIValue = styled.div`
   color: ${(props) => (props.on ? "rgba(104,212,109,1.0)" : "grey")};
 `;
 
-
 const ContentField = ({ prop, value, invalid, priority }) => {
   return (
     <Container>
@@ -59,7 +58,7 @@ const ContentField = ({ prop, value, invalid, priority }) => {
 const DIOField = ({ ch, value, on, priority }) => {
   const setCommand = () => {
     console.log(`command = ${ch}`);
-    
+
     const data = {
       ch,
       value: value === "Close" ? 0 : 1,

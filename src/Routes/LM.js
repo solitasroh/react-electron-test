@@ -41,7 +41,7 @@ const TitleField = styled.label`
   font-size: 14px;
 `;
 
-const A2750LMInformation = ({partner}) => {
+const A2750LMInformation = ({ partner }) => {
   const [information, setInformation] = useState({
     operationState: 0,
     productCode: 0,
@@ -58,7 +58,7 @@ const A2750LMInformation = ({partner}) => {
 
   return (
     <InfoContainer>
-      <TitleField>Accura 2750LM {partner? "(PARTNER)" : ""}</TitleField>
+      <TitleField>Accura 2750LM {partner ? "(PARTNER)" : ""}</TitleField>
       <ContentField
         prop="operation state"
         value={information.operationState}
@@ -137,16 +137,16 @@ const A2750LMDigitalInput = () => {
     </InfoContainer>
   );
 };
-const A2750LDInformation = ({partner}) => {
+const A2750LDInformation = ({ partner }) => {
   const [ldInfo, setLdInfo] = useState({
-    operationState: '',
-    productCode: '',
-    serialNumber:'',
-    hardwareRevision: '',
-    applicationVersion: '',
-    kernelVersion : '',
-    bootloaderVersion: '',
-    pcbVersion: '',
+    operationState: "",
+    productCode: "",
+    serialNumber: "",
+    hardwareRevision: "",
+    applicationVersion: "",
+    kernelVersion: "",
+    bootloaderVersion: "",
+    pcbVersion: "",
   });
   const channel = partner ? CHANNEL_LD_PARTNER_INFO : CHANNEL_LD_INFO;
   useIpcOn(channel, (evt, ...args) => {
@@ -155,15 +155,47 @@ const A2750LDInformation = ({partner}) => {
 
   return (
     <InfoContainer>
-      <TitleField>Accura 2750LD {partner? "(PARTNER)" : ""}</TitleField>
-      <ContentField prop="operationState" value={ldInfo.operationState} priority="high"/>
-      <ContentField prop="productCode" value={ldInfo.productCode} priority="high"/>
-      <ContentField prop="serialNumber" value={ldInfo.serialNumber} priority="high"/>
-      <ContentField prop="hardwareRevision" value={ldInfo.hardwareRevision} priority="high"/>
-      <ContentField prop="applicationVersion" value={ldInfo.applicationVersion} priority="high"/>
-      <ContentField prop="kernelVersion" value={ldInfo.kernelVersion} priority="high"/>
-      <ContentField prop="bootloaderVersion" value={ldInfo.bootloaderVersion} priority="high"/>
-      <ContentField prop="pcbVersion" value={ldInfo.pcbVersion} priority="high"/>
+      <TitleField>Accura 2750LD {partner ? "(PARTNER)" : ""}</TitleField>
+      <ContentField
+        prop="operationState"
+        value={ldInfo.operationState}
+        priority="high"
+      />
+      <ContentField
+        prop="productCode"
+        value={ldInfo.productCode}
+        priority="high"
+      />
+      <ContentField
+        prop="serialNumber"
+        value={ldInfo.serialNumber}
+        priority="high"
+      />
+      <ContentField
+        prop="hardwareRevision"
+        value={ldInfo.hardwareRevision}
+        priority="high"
+      />
+      <ContentField
+        prop="applicationVersion"
+        value={ldInfo.applicationVersion}
+        priority="high"
+      />
+      <ContentField
+        prop="kernelVersion"
+        value={ldInfo.kernelVersion}
+        priority="high"
+      />
+      <ContentField
+        prop="bootloaderVersion"
+        value={ldInfo.bootloaderVersion}
+        priority="high"
+      />
+      <ContentField
+        prop="pcbVersion"
+        value={ldInfo.pcbVersion}
+        priority="high"
+      />
     </InfoContainer>
   )
 }
@@ -219,6 +251,7 @@ const A2750LMDigitalOutput = () => {
     </InfoContainer>
   );
 };
+
 const LM = () => {
   return (
     <Container>

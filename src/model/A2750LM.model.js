@@ -86,17 +86,17 @@ const fetchLMDOStatus = (data) => {
   return doStatus;
 };
 
-const parseA2750LDInformation = (data)=> {
+const parseA2750LDInformation = (data) => {
   const ldInformation = {
     operationState: operation_state(data[0]),
     productCode: data[1],
-    serialNumber: data[2] << 16| data[3],
+    serialNumber: (data[2] << 16) | data[3],
     hardwareRevision: data[4],
     applicationVersion: data[5],
-    kernelVersion : data[6],
+    kernelVersion: data[6],
     bootloaderVersion: data[7],
     pcbVersion: data[8],
-  }
+  };
   return ldInformation;
 };
 const parseA2750LMMismatchAlarm = (data) => {

@@ -6,11 +6,10 @@ import { a2700registerMap, a2700RegisterMap } from "./registerMap";
 const modbusClient = new ModbusRTU();
 
 const connectServer = ({ ip, port }) => {
-
-  ipcMain.on(CHANNEL_LM_DO_COMMAND, (evt, {ch, value})=> {
-    const buf = (value);
+  ipcMain.on(CHANNEL_LM_DO_COMMAND, (evt, { ch, value }) => {
+    const buf = value;
     console.log(buf);
-    modbusClient.writeCoil(1348+(ch-1), buf);
+    modbusClient.writeCoil(1348 + (ch - 1), buf);
   });
 
   return modbusClient.connectTCP(ip, { port });
@@ -24,10 +23,7 @@ const readRegister = async (register) => {
 };
 
 const readCoil = async (register) => {
-  return await modbusClient.readCoils(
-    register.address-1,
-    register.length
-  );
+  return await modbusClient.readCoils(register.address - 1, register.length);
 };
 
 const startToUpdate = (webContents) => {
@@ -49,7 +45,6 @@ const startToUpdate = (webContents) => {
           register.data = register.parser(data);
           webContents.send(register.channel, register.data);
         }
-        
       })
     );
   }, 1500);
