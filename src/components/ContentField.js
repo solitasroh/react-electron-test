@@ -65,4 +65,14 @@ const DIOField = ({ prop, value, on, priority }) => {
     </Container>
   );
 };
+
+export const ContentBox = styled.div`
+  display: inline-block;
+  justify-content: left;
+  background-color: white;
+  align-items: baseline;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 10px;
+`;
 export { ContentField, DIOField };

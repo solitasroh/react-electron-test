@@ -10,6 +10,7 @@ import {
   CHANNEL_LD_PARTNER_INFO,
 } from "../model/A2750LM.model";
 import { ContentField, DIOField } from "../components/ContentField";
+import A2750LMSetup from "../Views/A2750LMSetup";
 
 const Container = styled.div`
   display: flex;
@@ -211,6 +212,7 @@ const LM = () => {
       <A2750LDInformation isPartner={true}></A2750LDInformation>
       <A2750LMDigitalInput></A2750LMDigitalInput>
       <A2750LMDigitalOutput></A2750LMDigitalOutput>
+      <A2750LMSetup></A2750LMSetup>
     </Container>
   );
 };
