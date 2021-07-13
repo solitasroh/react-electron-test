@@ -42,6 +42,7 @@ const DIValue = styled.div`
   color: ${(props) => (props.on ? "rgba(104,212,109,1.0)" : "grey")};
 `;
 
+
 const ContentField = ({ prop, value, invalid, priority }) => {
   return (
     <Container>
@@ -63,4 +64,5 @@ const DIOField = ({ prop, value, on, priority }) => {
     </Container>
   );
 };
+
 export { ContentField, DIOField };

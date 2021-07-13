@@ -5,6 +5,9 @@ import {
   CHANNEL_LM_DI_STATUS,
   CHANNEL_LM_INFO,
   CHANNEL_LM_DO_STATUS,
+  CHANNEL_LD_INFO,
+  CHANNEL_LD_PARTNER_INFO,
+  CHANNEL_LM_PARTNER_INFO,
 } from "../model/A2750LM.model";
 import { ContentField, DIOField } from "../components/ContentField";
 
@@ -12,8 +15,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-space-between;
-  align-items: flex-start; ;
+  justify-content: left;
+  align-items: flex-start;
 `;
 
 const InfoContainer = styled.div`
@@ -36,26 +39,24 @@ const TitleField = styled.label`
   font-size: 14px;
 `;
 
-const A2750LMInformation = () => {
+const A2750LMInformation = ({partner}) => {
   const [information, setInformation] = useState({
     operationState: 0,
     productCode: 0,
     serialNumber: 0,
     hardwareRevision: 0,
-    moduleType: 0,
-    powerType: 0,
     pcbVersion: 0,
     applicationVersion: "0.0.000",
     bootloaderVersion: "0.0.000",
   });
-
-  useIpcOn(CHANNEL_LM_INFO, (evt, ...args) => {
+  const channel = !partner ? CHANNEL_LM_INFO : CHANNEL_LM_PARTNER_INFO;
+  useIpcOn(channel, (evt, ...args) => {
     setInformation(...args);
   });
 
   return (
     <InfoContainer>
-      <TitleField>Accura 2750LM</TitleField>
+      <TitleField>Accura 2750LM {partner? "(PARTNER)" : ""}</TitleField>
       <ContentField
         prop="operation state"
         value={information.operationState}
@@ -68,8 +69,6 @@ const A2750LMInformation = () => {
         prop="hardware revision"
         value={information.hardwareRevision}
       />
-      <ContentField prop="module type" value={information.moduleType} />
-      <ContentField prop="power type" value={information.powerType} />
       <ContentField prop="pcb version" value={information.pcbVersion} />
       <ContentField
         prop="application version"
@@ -82,7 +81,6 @@ const A2750LMInformation = () => {
     </InfoContainer>
   );
 };
-
 const A2750LMDigitalInput = () => {
   const [diStatus, setDiStatus] = useState({
     channel1: "",
@@ -137,6 +135,38 @@ const A2750LMDigitalInput = () => {
     </InfoContainer>
   );
 };
+const A2750LDInformation = ({partner}) => {
+  const [ldInfo, setLdInfo] = useState({
+    operationState: '',
+    productCode: '',
+    serialNumber:'',
+    hardwareRevision: '',
+    applicationVersion: '',
+    kernelVersion : '',
+    bootloaderVersion: '',
+    pcbVersion: '',
+  });
+  const channel = partner ? CHANNEL_LD_PARTNER_INFO : CHANNEL_LD_INFO;
+  useIpcOn(channel, (evt, ...args) => {
+    console.log(args);
+    setLdInfo(...args);
+  });
+
+  return (
+    <InfoContainer>
+      <TitleField>Accura 2750LD {partner? "(PARTNER)" : ""}</TitleField>
+      <ContentField prop="operationState" value={ldInfo.operationState} priority="high"/>
+      <ContentField prop="productCode" value={ldInfo.productCode} priority="high"/>
+      <ContentField prop="serialNumber" value={ldInfo.serialNumber} priority="high"/>
+      <ContentField prop="hardwareRevision" value={ldInfo.hardwareRevision} priority="high"/>
+      <ContentField prop="applicationVersion" value={ldInfo.applicationVersion} priority="high"/>
+      <ContentField prop="kernelVersion" value={ldInfo.kernelVersion} priority="high"/>
+      <ContentField prop="bootloaderVersion" value={ldInfo.bootloaderVersion} priority="high"/>
+      <ContentField prop="pcbVersion" value={ldInfo.pcbVersion} priority="high"/>
+    </InfoContainer>
+  )
+}
+
 const A2750LMDigitalOutput = () => {
   const [doStatus, setDoStatus] = useState({
     channel1: "",
@@ -174,10 +204,13 @@ const LM = () => {
   return (
     <Container>
       <A2750LMInformation></A2750LMInformation>
+      <A2750LMInformation partner={true}></A2750LMInformation>
+      <A2750LDInformation></A2750LDInformation>
+      <A2750LDInformation partner={true}></A2750LDInformation>
       <A2750LMDigitalInput></A2750LMDigitalInput>
       <A2750LMDigitalOutput></A2750LMDigitalOutput>
+      
     </Container>
   );
 };
-
 export default LM;
