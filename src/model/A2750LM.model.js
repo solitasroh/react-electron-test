@@ -6,6 +6,7 @@ export const CHANNEL_LD_INFO = "channel_ld_info";
 export const CHANNEL_LD_PARTNER_INFO = "channel_ld_partner_info";
 export const CHANNEL_LM_DO_COMMAND = "channel_lm_do_command";
 export const CHANNEL_LD_MISMATCH_ALARM = "channel_lm_mismatch_alarm";
+export const CHANNEL_LM_SETUP = "channel_lm_setup";
 
 const operation_state = (val) => {
   if (val === 1) return "Bootloader";
@@ -102,7 +103,23 @@ const parseA2750LDInformation = (data) => {
 const parseA2750LMMismatchAlarm = (data) => {
   const alarm = {
     alarm: data[0],
-  }
+  };
   return alarm;
+};
+
+export function parseA2750LMSetup(data) {
+  return {
+    operationMode: data[0],
+    digitalOperation: data[1],
+    analogDeadband: data[2],
+    alarmThreshold: data[3],
+  };
 }
-export { parseLMDIStatus, fetchLMProductInformation, fetchLMDOStatus, parseA2750LDInformation, parseA2750LMMismatchAlarm };
+
+export {
+  parseLMDIStatus,
+  fetchLMProductInformation,
+  fetchLMDOStatus,
+  parseA2750LDInformation,
+  parseA2750LMMismatchAlarm,
+};

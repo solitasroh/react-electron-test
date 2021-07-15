@@ -8,9 +8,11 @@ import {
   CHANNEL_LD_INFO,
   CHANNEL_LD_PARTNER_INFO,
   CHANNEL_LD_MISMATCH_ALARM,
+  CHANNEL_SETUP_LM,
   parseA2750LMMismatchAlarm,
   fetchLMDOStatus,
   parseA2750LDInformation,
+  parseA2750LMSetup,
 } from "../model/A2750LM.model";
 
 export const a2700registerMap = [
@@ -134,5 +136,18 @@ export const a2700registerMap = [
       alarm: 0,
     },
     parser: parseA2750LMMismatchAlarm,
+  },
+  {
+    fc: 3,
+    address: 60000,
+    length: 4,
+    channel: CHANNEL_SETUP_LM,
+    data:{
+      operationMode: 0,
+      digitalOperation: 0,
+      analogDeadband: 0,
+      alarmThreshold: 1
+    },
+    parser: parseA2750LMSetup,
   }
 ];

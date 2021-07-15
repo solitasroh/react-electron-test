@@ -3,6 +3,26 @@ import styled from "styled-components";
 import { CHANNEL_LM_DO_COMMAND } from "../model/A2750LM.model";
 const { ipcRenderer } = window.require("electron");
 
+export const ContentBox = styled.div`
+  display: inline-block;
+  justify-content: left;
+  background-color: white;
+  align-items: baseline;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 10px;
+`;
+
+export const TitleLabel = styled.div`
+  display: flex;
+  margin-bottom: 10px;
+  justify-content: center;
+  align-items: center;
+  color: rgba(10, 10, 10, 0.8);
+  font-weight: 600;
+  font-size: 14px;
+`;
+
 const Container = styled.div`
   display: flex;
   justify-content: left;
@@ -10,6 +30,8 @@ const Container = styled.div`
   padding: 5px;
   border-bottom: 0.5px solid rgba(100, 100, 100, 0.2);
 `;
+
+
 
 const Title = styled.div`
   display: flex;

@@ -10,26 +10,16 @@ import {
   CHANNEL_LM_PARTNER_INFO,
   CHANNEL_LD_MISMATCH_ALARM,
 } from "../model/A2750LM.model";
-import { ContentField, DIOField, InfoContainer } from "../components/ContentField";
-import A2750LMSetup from "../components/A2750LMSetup";
-
+import { ContentField, DIOField, ContentBox } from "../components/ContentField";
+import A2750LMSetup from "../Views/A2750LMSetup";
+import A2750LMInformation from "../Views/A2750LMInformation";
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: no-wrap;
   justify-content: left;
   align-items: flex-start;
 `;
-
-// const InfoContainer = styled.div`
-//   display: inline-block;
-//   justify-content: left;
-//   background-color: white;
-//   align-items: baseline;
-//   margin: 10px;
-//   border-radius: 5px;
-//   padding: 10px;
-// `;
 
 const TitleField = styled.label`
   display: flex;
@@ -41,48 +31,6 @@ const TitleField = styled.label`
   font-size: 14px;
 `;
 
-const A2750LMInformation = ({ partner }) => {
-  const [information, setInformation] = useState({
-    operationState: 0,
-    productCode: 0,
-    serialNumber: 0,
-    hardwareRevision: 0,
-    pcbVersion: 0,
-    applicationVersion: "0.0.000",
-    bootloaderVersion: "0.0.000",
-  });
-  const channel = !partner ? CHANNEL_LM_INFO : CHANNEL_LM_PARTNER_INFO;
-  useIpcOn(channel, (evt, ...args) => {
-    setInformation(...args);
-  });
-
-  return (
-    <InfoContainer>
-      <TitleField>Accura 2750LM {partner ? "(PARTNER)" : ""}</TitleField>
-      <ContentField
-        prop="operation state"
-        value={information.operationState}
-        invalid={information.operationState === "UNIDENIFIED"}
-        priority="high"
-      />
-      <ContentField prop="product code" value={information.productCode} />
-      <ContentField prop="serial number" value={information.serialNumber} />
-      <ContentField
-        prop="hardware revision"
-        value={information.hardwareRevision}
-      />
-      <ContentField prop="pcb version" value={information.pcbVersion} />
-      <ContentField
-        prop="application version"
-        value={information.applicationVersion}
-      />
-      <ContentField
-        prop="bootloader version"
-        value={information.bootloaderVersion}
-      />
-    </InfoContainer>
-  );
-};
 const A2750LMDigitalInput = () => {
   const [diStatus, setDiStatus] = useState({
     channel1: "",
@@ -110,7 +58,7 @@ const A2750LMDigitalInput = () => {
   });
 
   return (
-    <InfoContainer>
+    <ContentBox>
       <TitleField>Digital Input</TitleField>
       <DIOField
         ch={1}
@@ -134,7 +82,7 @@ const A2750LMDigitalInput = () => {
       <DIOField ch={16} value={diStatus.channel16} />
       <DIOField ch={17} value={diStatus.channel17} />
       <DIOField ch={18} value={diStatus.channel18} />
-    </InfoContainer>
+    </ContentBox>
   );
 };
 const A2750LDInformation = ({ partner }) => {
@@ -154,7 +102,7 @@ const A2750LDInformation = ({ partner }) => {
   });
 
   return (
-    <InfoContainer>
+    <ContentBox>
       <TitleField>Accura 2750LD {partner ? "(PARTNER)" : ""}</TitleField>
       <ContentField
         prop="operationState"
@@ -196,7 +144,7 @@ const A2750LDInformation = ({ partner }) => {
         value={ldInfo.pcbVersion}
         priority="high"
       />
-    </InfoContainer>
+    </ContentBox>
   )
 }
 const A2750LMAlarm = () => {
@@ -212,10 +160,10 @@ const A2750LMAlarm = () => {
   });
 
   return (
-    <InfoContainer>
+    <ContentBox>
       <TitleField>Accura 2750LM Alarm</TitleField>
       <ContentField prop="MissMatch" value={alarm.alarm ? "On" : "Off"} priority="high"/>
-    </InfoContainer>
+    </ContentBox>
   )
 }
 
@@ -237,7 +185,7 @@ const A2750LMDigitalOutput = () => {
   });
 
   return (
-    <InfoContainer>
+    <ContentBox>
       <TitleField>Digital Output</TitleField>
       <DIOField ch={1} value={doStatus.channel1} />
       <DIOField ch={2} value={doStatus.channel2} />
@@ -248,7 +196,7 @@ const A2750LMDigitalOutput = () => {
       <DIOField ch={7} value={doStatus.channel7} />
       <DIOField ch={8} value={doStatus.channel8} />
       <DIOField ch={9} value={doStatus.channel9} />
-    </InfoContainer>
+    </ContentBox>
   );
 };
 

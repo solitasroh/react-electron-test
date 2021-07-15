@@ -1,7 +1,7 @@
 import { ipcMain } from "electron";
 import ModbusRTU from "modbus-serial";
 import { CHANNEL_LM_DO_COMMAND } from "../model/A2750LM.model";
-import { a2700registerMap, a2700RegisterMap } from "./registerMap";
+import { a2700registerMap } from "./registerMap";
 
 const modbusClient = new ModbusRTU();
 
